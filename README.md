@@ -62,7 +62,8 @@ git clone https://github.com/KshitizSadh/Url-Attack-Detector.git
 cd url-attack-detector
 
 # 2. Start the application
-docker-compose up -d
+docker build -t sih-url-detector .
+docker compose up
 
 # 3. Open your browser
 Visit http://localhost:5000
