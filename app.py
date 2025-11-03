@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, redirect, url_for, send_file, jsonify
+from flask import Flask, request, render_template, redirect, url_for, send_file, jsonify, send_from_directory
 from models import init_db, SessionLocal, Alert
 from parser import parse_pcap, parse_access_log
 from detectors import run_all
@@ -7,14 +7,40 @@ import pandas as pd
 import io
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 init_db()
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def landing():
+    return render_template('landing.html')
+
+@app.route('/service')
+def service():
+    return render_template('service.html')
+
+@app.route('/team')
+def team():
+    return render_template('team.html')
+
+@app.route('/media/<path:filename>')
+def media(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
+@app.route('/capabilities')
+def capabilities():
+    return render_template('capabilities.html')
+
+@app.route('/architecture')
+def architecture():
+    return render_template('architecture.html')
+
+
+@app.route('/showcase')
+def showcase():
+    return render_template('showcase.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -38,7 +64,7 @@ def upload():
             session.add(a)
     session.commit()
     session.close()
-    return redirect(url_for('index'))
+    return redirect(url_for('service'))
 
 @app.route('/alerts')
 def alerts_api():

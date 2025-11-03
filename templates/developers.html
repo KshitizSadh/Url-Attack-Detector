@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}HackCBS — Developers{% endblock %}
+
+{% block content %}
+<div class="section-heading"><span class="dot"></span><h5 class="m-0 text-soft">Installation</h5></div>
+<div class="card card-matrix mb-4"><div class="card-body">
+<pre class="m-0"><code>git clone &lt;repo&gt;
+cd HackCBS
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+flask run
+# or docker compose up</code></pre>
+</div></div>
+
+<div class="section-heading"><span class="dot"></span><h5 class="m-0 text-soft">How Detection Works</h5></div>
+<p class="text-soft">Pattern matching + heuristics over normalized HTTP requests, paths, params, and headers. Confidence is derived from rule weights and context frequency.</p>
+
+<div class="section-heading"><span class="dot"></span><h5 class="m-0 text-soft">API Endpoints</h5></div>
+<div class="table-wrap">
+  <table class="display" style="width:100%">
+    <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>GET</td><td>/alerts</td><td>List recent alerts as JSON</td></tr>
+      <tr><td>POST</td><td>/upload</td><td>Upload PCAP/log for analysis</td></tr>
+      <tr><td>GET</td><td>/export?fmt=csv</td><td>Export alerts to CSV</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section-heading"><span class="dot"></span><h5 class="m-0 text-soft">Custom Rule Example</h5></div>
+<div class="card card-matrix"><div class="card-body">
+<pre class="m-0"><code># detectors.py
+def detect_weird_user_agent(record):
+    ua = (record.get('user_agent') or '').lower()
+    bad = ['sqlmap', 'nikto']
+    if any(b in ua for b in bad):
+        return [('Suspicious user agent', 0.7)]
+    return []
+
+def run_all(record, recent_login_attempts=None):
+    alerts = []
+    # ... existing detectors ...
+    alerts += detect_weird_user_agent(record)
+    return alerts</code></pre>
+</div></div>
+
+<div class="mt-4">
+  <a class="btn btn-outline-matrix" href="https://github.com/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a>
+</div>
+{% endblock %}
+

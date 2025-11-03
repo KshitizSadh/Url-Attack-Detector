@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}HackCBS — Matrix Security Dashboard{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+{% endblock %}
+
+{% block hero %}
+<section class="matrix-hero position-relative">
+  <video class="matrix-video" autoplay loop muted playsinline poster="" preload="auto">
+    <source src="{{ url_for('media', filename='Background.mp4') }}" type="video/mp4" />
+  </video>
+  <div class="overlay"></div>
+  <div class="container h-100 d-flex flex-column justify-content-center align-items-start text-start px-3">
+    <div class="hero-content">
+      <h1 class="display-5 fw-bold text-matrix mb-2">Real-time Cyber Threat Intelligence</h1>
+      <p class="lead text-soft mb-4">Detect malicious traffic, block attacks, and secure your digital perimeter.</p>
+      <div class="d-flex flex-wrap hero-cta">
+        <a href="{{ url_for('service') }}" class="btn btn-matrix btn-lg">Get Started</a>
+        <a href="{{ url_for('team') }}" class="btn btn-outline-matrix btn-lg">Meet the Team</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4 align-items-center mb-4">
+  <div class="col-md-8">
+    <div class="section-heading"><span class="dot"></span><h2 class="m-0 h5 text-soft">Overview</h2></div>
+    <h3 class="h4 text-matrix mb-2">Real-time Cyber Threat Intelligence for Modern Web Infrastructure</h3>
+    <p class="text-soft mb-3">Detect malicious traffic, block attacks, and secure your digital perimeter.</p>
+    <div class="d-flex gap-2 flex-wrap">
+      <a href="{{ url_for('service') }}" class="btn btn-matrix"><i class="bi bi-play-circle"></i> Try Demo</a>
+      <a href="{{ url_for('showcase') }}" class="btn btn-outline-matrix"><i class="bi bi-camera-video"></i> Watch Video</a>
+      <a href="https://github.com/" target="_blank" class="btn btn-outline-matrix"><i class="bi bi-download"></i> Download Source</a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-matrix">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-soft">Live Threat Counter</div>
+            <div class="h3 m-0" id="liveCounter">12,904</div>
+          </div>
+          <i class="bi bi-activity text-matrix" style="font-size: 1.75rem;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-heading"><span class="dot"></span><h2 class="m-0 h5 text-soft">Why HackCBS Detector</h2></div>
+<div class="row g-4 mt-1">
+  <div class="col-md-4">
+    <div class="card card-matrix feature h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="feature-icon"><i class="bi bi-upload"></i></span>
+          <h5 class="card-title m-0">Upload</h5>
+        </div>
+        <p class="card-text">Analyze PCAP or access logs to surface attack indicators fast.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-matrix feature h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="feature-icon"><i class="bi bi-bug"></i></span>
+          <h5 class="card-title m-0">Detect</h5>
+        </div>
+        <p class="card-text">Heuristics highlight suspicious URLs, HTTP methods, and payloads.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-matrix feature h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="feature-icon"><i class="bi bi-file-earmark-arrow-down"></i></span>
+          <h5 class="card-title m-0">Export</h5>
+        </div>
+        <p class="card-text">Export to CSV for reporting and incident workflows.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<div class="row g-4 align-items-stretch mt-2">
+  <div class="col-md-6">
+    <div class="card card-matrix h-100">
+      <div class="card-body">
+        <div class="section-heading mb-2"><span class="dot"></span><h2 class="m-0 h6 text-soft">Problem & Opportunity</h2></div>
+        <p class="text-soft">Web attacks grow in frequency and sophistication while teams are overloaded.</p>
+        <ul class="mb-0">
+          <li>Modern web apps face escalating attack vectors</li>
+          <li>Manual monitoring is inefficient, reactive, and risky</li>
+          <li>Attackers exploit URL endpoints, injection vectors, log vulnerabilities</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card card-matrix h-100">
+      <div class="card-body">
+        <div class="section-heading mb-2"><span class="dot"></span><h2 class="m-0 h6 text-soft">Attack Landscape</h2></div>
+        <p class="text-soft">A snapshot of common web attack categories seen in the wild.</p>
+        <canvas id="attackPie" height="180"></canvas>
+        <div class="mt-2 d-flex gap-2 flex-wrap">
+          <span class="badge-tech">OWASP Top 10</span>
+          <span class="badge-tech">CWE</span>
+          <span class="badge-tech">MITRE ATT&CK</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mt-2">
+  <div class="col-12">
+    <div class="card card-matrix">
+      <div class="card-body">
+        <div class="section-heading mb-2"><span class="dot"></span><h2 class="m-0 h6 text-soft">Solution Overview</h2></div>
+        <p class="text-soft">An easy, powerful dashboard for log and PCAP intelligence with alerting.</p>
+        <div class="row g-3 align-items-center">
+          <div class="col-md-6">
+            <div class="ratio ratio-16x9 card-matrix" style="border-style:dashed;">
+              <div class="d-flex align-items-center justify-content-center text-soft">Dashboard preview placeholder</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="heading-accent mb-2"></div>
+            <ul class="mb-3 subtle">
+              <li>AI-assisted threat scoring</li>
+              <li>Instant alerting & insights</li>
+              <li>Server-log & PCAP intelligence</li>
+              <li>Zero learning curve UX</li>
+            </ul>
+            <a href="{{ url_for('service') }}" class="btn btn-matrix"><i class="bi bi-rocket-takeoff"></i> Launch Live Demo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="/static/js/landing.js"></script>
+{% endblock %}
+
+

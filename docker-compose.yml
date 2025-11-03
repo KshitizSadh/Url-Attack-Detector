@@ -1,19 +1,19 @@
-version: '3.8'
+version: "3.8"
 
 services:
   web:
     build: .
     image: sih-url-detector:latest
     ports:
-      - "5000:5000"
+      - "8000:5000"
     volumes:
-      - ./uploads:/app/uploads          # persist uploaded PCAPs/logs
-      - ./alerts.db:/app/alerts.db      # persist SQLite DB (optional)
-      - ./templates:/app/templates      # hot-reload templates during dev
-      - ./static:/app/static    
+      - ./uploads:/app/uploads # persist uploaded PCAPs/logs
+      - ./templates:/app/templates # hot-reload templates during dev
+      - ./static:/app/static
       - .:/app
-      - ./data:/app/data          # hot-reload static assets
+      - ./data:/app/data # hot-reload static assets
     environment:
       - FLASK_ENV=development
+      - FLASK_DEBUG=1
       - TSHARK_PATH=/usr/bin/tshark
     restart: unless-stopped

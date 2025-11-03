@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}HackCBS — Team{% endblock %}
+
+{% block content %}
+<div class="section-heading"><span class="dot"></span><h5 class="m-0 text-soft">The Team</h5></div>
+<div class="row g-4">
+  {% set members = [
+    {'name':'Neo','role':'Lead Engineer','bio':'Architects detection pipelines and models.'},
+    {'name':'Trinity','role':'Frontend','bio':'Crafts immersive Matrix UI.'},
+    {'name':'Morpheus','role':'Data','bio':'Wrangles logs and draws insights.'}
+  ] %}
+  {% for m in members %}
+  {% set initials = (m.name.split()[0][0] + (m.name.split()|length>1 and m.name.split()[1][0] or ''))|upper %}
+  <div class="col-md-4">
+    <div class="card card-matrix h-100">
+      <div class="card-body d-flex align-items-start gap-3">
+        <div class="avatar">{{ initials }}</div>
+        <div>
+          <h5 class="card-title mb-1">{{ m.name }}</h5>
+          <div class="text-light-700 mb-2">{{ m.role }}</div>
+          <p class="card-text mb-0">{{ m.bio }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}HackCBS — Service{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-3">
+  <div>
+    <h2 class="mb-1 text-matrix">URL Attack Detector</h2>
+    <div class="text-soft">Upload logs or PCAP, review detections, and export results.</div>
+  </div>
+  <form action="/upload" method="post" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
+    <input type="file" name="file" class="form-control" required />
+    <button class="btn btn-matrix" type="submit">Upload & Analyze</button>
+    <a class="btn btn-outline-matrix" href="/export?fmt=csv">Export CSV</a>
+    <button id="refresh" class="btn btn-secondary" type="button">Refresh</button>
+  </form>
+</div>
+
+<div class="table-wrap">
+  <table id="alerts" class="display" style="width: 100%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Time</th>
+        <th>Src IP</th>
+        <th>URL</th>
+        <th>Attack</th>
+        <th>Confidence</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="/static/js/app.js"></script>
+{% endblock %}
+
+

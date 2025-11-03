@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}HackCBS — Product Capabilities{% endblock %}
+
+{% block content %}
+<div class="section-heading"><span class="dot"></span><h5 class="m-0 text-soft">Attack Categories</h5></div>
+
+<div class="row g-4">
+  {% set cats = [
+    {'icon':'code-slash','name':'SQL Injection','plain':'Tricks the app into running unintended database commands.','tech':'Injection into SQL queries via unsanitized inputs.','payload':'id=1 OR 1=1 --','how':'Pattern rules on tautologies, UNION/SELECT, comment markers, and param context.'},
+    {'icon':'braces','name':'XSS','plain':'Runs attacker code in the user\'s browser.','tech':'Unescaped input rendered into HTML/JS contexts.','payload':'<script>alert(1)</script>','how':'Detects tags, event handlers, suspicious JS tokens in parameters/paths.'},
+    {'icon':'cloud-arrow-down','name':'SSRF','plain':'Server is tricked into fetching internal resources.','tech':'Requests to internal IPs/metadata services.','payload':'url=http://169.254.169.254/','how':'Private IP ranges and metadata endpoints flagged by heuristics.'},
+    {'icon':'folder','name':'Directory Traversal','plain':'Reads files outside allowed folders.','tech':'Path traversal via ../ sequences.','payload':'../../etc/passwd','how':'Normalization + blacklist of sensitive paths and traversal sequences.'}
+  ] %}
+  {% for c in cats %}
+  <div class="col-md-6">
+    <div class="card card-matrix h-100 row-hover">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-{{ c.icon }} text-matrix"></i>
+          <h5 class="card-title m-0">{{ c.name }}</h5>
+        </div>
+        <div class="mb-1"><strong>Layman:</strong> {{ c.plain }}</div>
+        <div class="mb-1"><strong>Technical:</strong> {{ c.tech }}</div>
+        <div class="mb-1"><strong>Sample:</strong> <code>{{ c.payload }}</code></div>
+        <div class="mb-2"><strong>Detector:</strong> {{ c.how }}</div>
+        <div class="meter"><span style="width: 68%"></span></div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="section-heading mt-4"><span class="dot"></span><h5 class="m-0 text-soft">Interactive Demo</h5></div>
+<div class="card card-matrix">
+  <div class="card-body">
+    <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+      <a class="btn btn-matrix" href="{{ url_for('service') }}"><i class="bi bi-upload"></i> Upload Log / PCAP</a>
+      <a class="btn btn-outline-matrix" href="/export?fmt=csv"><i class="bi bi-box-arrow-down"></i> Export</a>
+    </div>
+    <div class="text-soft">Live detections, confidence bars, and severity coloring available on the Service page.</div>
+  </div>
+</div>
+{% endblock %}
+
