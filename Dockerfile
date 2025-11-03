@@ -28,6 +28,6 @@ ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV TSHARK_PATH=/usr/bin/tshark
 
-EXPOSE 5001
+EXPOSE 5000
 
 CMD ["flask", "run", "--host=0.0.0.0"]
